@@ -1,0 +1,67 @@
+import sys
+dict = {}
+
+def dict_setup(file):
+	file = open(file, "r")
+	for line in file:
+		dict[line.strip()] = 1
+
+words = {}
+i = 1
+
+
+def strspace(line):
+	#initialize all values to False
+	for w in range(0, len(line)+1):
+		words[line[:w]] = False
+
+	for k in range(i, len(line)+1):
+		y = line[:k] 
+		if (y in dict and words[y] == False):
+			words[y] = True
+		if (words[y] == True):
+			if k == len(line):
+				return True
+
+		for j in range(k+1, len(line)+1):
+			x = line[k:j-k]
+			z = line[:j]
+			if (x in dict and words[z] == False):
+				words[x] = True
+			if (j == len(line) and words[z] == True):
+				return True
+	return False
+
+
+
+
+
+
+
+
+
+
+
+
+def driver():
+	num_lines = int(sys.stdin.readline().strip())
+	print() #for clarity
+	for i in range(num_lines):
+		x = sys.stdin.readline().strip()
+		y = strspace(x)
+		print("this is y:", y)
+		print("phrase number: ", (i+1))
+		print(x) #the line we will be checking
+		print("memoized attempt:")
+		if y == True:
+			print("YES, can be split")	
+			print(y)
+		
+		else:
+			print("NO, cannot be split")
+		print()
+
+
+if __name__ == "__main__":
+	dict_setup('diction10k.txt')
+	driver()
